@@ -1,0 +1,122 @@
+﻿@{
+    @model IEnumerable<JZ.Application.Contract.Dtos.Business.FWXXDto>
+
+}
+
+<div class="row">
+    <form asp-controller="FWXX" asp-action="Index" method="get">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">服务管理</h4>
+            </div>
+            <div class="card-body p-6">
+                <div class="inbox-body">
+                    <div class="row">
+                        <div class="form-row align-items-center">
+                            <div class="col-auto">
+                                <select name="lxbm" class="form-control form-select select2" data-bs-placeholder="选择服务分类">
+                                    <option value="">选择服务分类</option>
+                                    @foreach (JZ.Application.Contract.Dtos.Business.ZDXXDto flitem in ViewBag.FLlist)
+                                    {
+                                        <option value="@flitem.ZDBM" selected='@( Context.Request.Query["lxbm"] == flitem.ZDBM)'>@flitem.ZDMC</option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-primary">查询</button>
+                            </div>
+                            <div class="col-auto">
+                                <a type="button" id="btnAdd" asp-controller="FWXX" asp-action="Details" asp-route-returnUrl="@Context.Request.QueryString.Value" class="btn btn-primary">新增</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table border text-nowrap text-md-nowrap table-hover mb-0">
+                            <thead>
+                                <tr>
+
+                                    <th scope="col">服务类型</th>
+                                    <th scope="col">名称</th>
+                                    <th scope="col">图片</th>
+                                    <th scope="col">简介</th>
+                                    <th scope="col">价格</th>
+                                    <th scope="col">单位</th>
+                                    <th scope="col">顺序</th>
+                                    <th scope="col">是否优质</th>
+                                    <th scope="col">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (JZ.Application.Contract.Dtos.Business.FWXXDto item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.FWLXMC</td>
+                                        <td>@item.Title</td>
+                                        <td>
+                                            <img src="@item.Pic" alt="@item.Title" class="img-thumbnail h-8 w-9">
+                                        </td>
+                                        <td>@item.Summary</td>
+                                        <td>@item.Price</td>
+                                        <td>@item.UnitMC</td>
+                                        <td>@item.SX</td>
+                                        <td>@item.IsGood</td>
+                                        <td>
+                                            <div class="col-md-3">
+                                                <a type="button" id="btnAdd" asp-controller="FWXX" asp-action="Details" asp-route-id="@item.ID" asp-route-returnUrl="@Context.Request.QueryString.Value" class="btn btn-sm btn-primary">修改</a>
+                                                <a href="#" data-id="@item.ID" class="btn btn-sm btn-danger">删除</a>
+
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ul class="pagination mb-4">
+            @await Component.InvokeAsync("Pagination")
+        </ul>
+
+    </form>
+
+    @section Scripts{
+        <script type="text/javascript">
+
+            //删除
+            $(".btn-danger").on("click", function (e) {
+                const ids = e.target.dataset.id;
+                layer.confirm('确认删除数据吗?', { icon: 3, title: '提示' }, function (index) {
+                    $.ajax({
+                        type: "post",
+                        datatype: "json",
+                        url: "/FWXX/Delete",
+                        data: { ids: ids },
+                        success: function (result) {
+                            if (result.code == 200) {
+                                layer.msg("删除成功", function () {
+                                    window.location.href = "/FWXX/Index";
+                                });
+
+                            } else {
+                                layer.msg("删除失败!");
+                            }
+                        }
+
+
+                    });
+
+
+                });
+
+            });
+
+        </script>
+    }
+
+</div>

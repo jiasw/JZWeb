@@ -1,0 +1,109 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @model JZ.Application.Contract.Dtos.Business.LXWMDto
+}
+<div class="row">
+    <div class="col-md">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">关于我们</h4>
+            </div>
+            <div class="card-body">
+                    <input type="hidden" name="ID" id="hidID" value="@Model.ID" />
+                <input type="hidden" name="Summary" id="hidSummary" value="@Model.Summary" />
+                <div class=" row mb-4">
+                        <label for="inputName" class="col-md-1 form-label">简介<span class="text-red">*</span></label>
+                        <div class="col-md-9">
+                        <script id="container" name="content" type="text/plain">
+                            
+                        </script>
+                        </div>
+                    </div>
+                    
+                    <div class=" row mb-4">
+                    <label  class="col-md-1 form-label">公司地址<span class="text-red">*</span></label>
+                        <div class="col-md-9">
+                        <input type="text" name="Address" id="txtAddress" class="form-control" value="@Model.Address">
+                        </div>
+                    </div>
+                    <div class=" row mb-4">
+                    <label  class="col-md-1 form-label">联系电话<span class="text-red">*</span></label>
+                        <div class="col-md-9">
+                        <input type="text" name="Phone" id="txtPhone" class="form-control" value="@Model.Phone">
+                        </div>
+                    </div>
+                    <div class=" row mb-4">
+                    <label f class="col-md-1 form-label">邮箱地址<span class="text-red">*</span></label>
+                        <div class="col-md-9">
+                        <input type="text" name="Email" id="txtEmail" class="form-control" value="@Model.Email">
+                        </div>
+                    </div>
+                    <div class="mb-0 mt-4 row justify-content-end">
+                        <div class="col-md-9">
+                            <button id="btnSave"  class="btn btn-primary">保存</button>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script type="text/javascript" src="~/lib/ueditor-1.4.3.3/ueditor.config.js"></script>
+    <script type="text/javascript" src="~/lib/ueditor-1.4.3.3/ueditor.all.min.js"></script>
+    <script type="text/javascript">
+        
+        $(document).ready(function(){
+            var ue = UE.getEditor('container', {
+                initialFrameHeight: 500
+            });
+
+            setTimeout(function(){
+                let txtsummary = $('#hidSummary').val();
+                if (txtsummary) {
+                    UE.getEditor('container').setContent(txtsummary);
+                }
+            },1000);
+            
+
+        
+        })
+
+
+
+        $("#btnSave").on("click",function(){
+            let postModel={
+                ID: $("#hidID").val(),
+                Summary: UE.getEditor('container').getContent(),
+                Address: $("#txtAddress").val(),
+                Phone: $("#txtPhone").val(),
+                Email: $("#txtEmail").val(),
+            };
+
+            $.ajax({
+                url: "/LXWM/Save",
+                type: "post",
+                data: postModel,
+                success: function (data) {
+                    if(data.code==200){
+                        layer.msg('保存成功');
+                    }else{
+                        layer.alert(data.message);
+                    }
+                        
+                },
+                error: function (data) {
+
+                }
+            });
+
+
+        
+        
+        });
+
+
+    </script>
+
+ }

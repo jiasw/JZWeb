@@ -1,0 +1,15 @@
+D:\Workstuio\家政服务项目\Code\JZ.Domain\bin\Debug\net6.0\JZ.Domain.deps.json
+D:\Workstuio\家政服务项目\Code\JZ.Domain\bin\Debug\net6.0\JZ.Domain.dll
+D:\Workstuio\家政服务项目\Code\JZ.Domain\bin\Debug\net6.0\JZ.Domain.pdb
+D:\Workstuio\家政服务项目\Code\JZ.Domain\bin\Debug\net6.0\JZ.Domain.Shared.dll
+D:\Workstuio\家政服务项目\Code\JZ.Domain\bin\Debug\net6.0\JZ.Domain.Shared.pdb
+D:\Workstuio\家政服务项目\Code\JZ.Domain\obj\Debug\net6.0\JZ.Domain.csproj.AssemblyReference.cache
+D:\Workstuio\家政服务项目\Code\JZ.Domain\obj\Debug\net6.0\JZ.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\Workstuio\家政服务项目\Code\JZ.Domain\obj\Debug\net6.0\JZ.Domain.AssemblyInfoInputs.cache
+D:\Workstuio\家政服务项目\Code\JZ.Domain\obj\Debug\net6.0\JZ.Domain.AssemblyInfo.cs
+D:\Workstuio\家政服务项目\Code\JZ.Domain\obj\Debug\net6.0\JZ.Domain.csproj.CoreCompileInputs.cache
+D:\Workstuio\家政服务项目\Code\JZ.Domain\obj\Debug\net6.0\JZ.Domain.csproj.CopyComplete
+D:\Workstuio\家政服务项目\Code\JZ.Domain\obj\Debug\net6.0\JZ.Domain.dll
+D:\Workstuio\家政服务项目\Code\JZ.Domain\obj\Debug\net6.0\refint\JZ.Domain.dll
+D:\Workstuio\家政服务项目\Code\JZ.Domain\obj\Debug\net6.0\JZ.Domain.pdb
+D:\Workstuio\家政服务项目\Code\JZ.Domain\obj\Debug\net6.0\ref\JZ.Domain.dll

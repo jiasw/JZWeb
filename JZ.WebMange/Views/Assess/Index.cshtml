@@ -1,0 +1,127 @@
+﻿@{
+    @model IEnumerable<JZ.Application.Contract.Dtos.Business.AssessDto>
+
+}
+
+<div class="row">
+    <form asp-controller="Assess" asp-action="Index" method="get">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">服务管理</h4>
+            </div>
+            <div class="card-body p-6">
+                <div class="inbox-body">
+                    <div class="row">
+                        <div class="form-row align-items-center">
+                            <div class="col-auto">
+                                <select name="isgood" class="form-control form-select select2" data-bs-placeholder="选择字典分类">
+                                    <option value="">精选评价</option>
+                                    @foreach (JZ.Application.Contract.Dtos.Business.ZDXXDto flitem in ViewBag.FLlist)
+                                    {
+                                        <option value="@flitem.ZDBM" selected='@( Context.Request.Query["isgood"] == flitem.ZDBM)'>@flitem.ZDMC</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-auto">
+                                <input type="text" name="keyword" id="txtTitle" class="form-control"  placeholder="关键字">
+                            </div>
+
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-primary">查询</button>
+                            </div>
+                            <div class="col-auto">
+                                <a type="button" id="btnAdd" asp-controller="Assess" asp-action="Details" class="btn btn-primary">新增</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table border text-nowrap text-md-nowrap table-hover mb-0">
+                            <thead>
+                                <tr>
+
+                                    <th scope="col">用户</th>
+                                    <th scope="col">订单ID</th>
+                                    <th scope="col">评价文本</th>
+                                    <th scope="col">评价图片</th>
+                                    <th scope="col">评价等级</th>
+                                    <th scope="col">精选评价</th>
+                                    <th scope="col">评价关键字</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (JZ.Application.Contract.Dtos.Business.AssessDto item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.UserName
+                                            <img style="height:40px" name="UserImg" src="@item.UserImg" class="img-thumbnail" alt="用户头像">
+                                        </td>
+                                        <td>@item.OrderID</td>
+                                        <td>@item.Text</td>
+                                        <td>
+                                            @foreach (string picitem in @item.listPic)
+                                            {
+                                                <img style="height:40px" name="UserImg" src="@picitem" class="img-thumbnail" alt="评价图片">
+                                            }
+                                        </td>
+                                        <td>@item.Level</td>
+                                        <td>@item.IsGood</td>
+                                        <td>@item.KeyWord</td>
+                                        <td>
+                                            <div class="col-md-3">
+                                                <a type="button" id="btnAdd" asp-controller="Assess" asp-action="Details" asp-route-id="@item.ID" class="btn btn-sm btn-primary">修改</a>
+                                                <a href="#" data-id="@item.ID" class="btn btn-sm btn-danger">删除</a>
+
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ul class="pagination mb-4">
+            @await Component.InvokeAsync("Pagination")
+        </ul>
+
+    </form>
+
+    @section Scripts{
+        <script type="text/javascript">
+
+            //删除
+            $(".btn-danger").on("click", function (e) {
+                const ids = e.target.dataset.id;
+                layer.confirm('确认删除数据吗?', { icon: 3, title: '提示' }, function (index) {
+                    $.ajax({
+                        type: "post",
+                        datatype: "json",
+                        url: "/Assess/Delete",
+                        data: { ids: ids },
+                        success: function (result) {
+                            if (result.code == 200) {
+                                layer.msg("删除成功", function () {
+                                    window.location.href = "/Assess/Index";
+                                });
+
+                            } else {
+                                layer.msg("删除失败!");
+                            }
+                        }
+
+
+                    });
+
+
+                });
+
+            });
+
+        </script>
+    }
+
+</div>

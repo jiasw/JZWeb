@@ -1,0 +1,99 @@
+﻿
+@{
+    @model JZ.Application.Contract.Dtos.Business.ZDXXDto
+
+}
+<div class="row justify-content-md-center">
+    <div class="col-md-7">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">编辑字典信息信息</h4>
+            </div>
+            <div class="card-body">
+                <form class="form-horizontal" asp-controller="ZDXX" asp-action="Save" asp-route-returnUrl="@Context.Request.Query["returnUrl"] ">
+                    <input type="hidden" name="ID" id="hidID" value="@Model.ID" />
+                    <div class=" row mb-4">
+                        <label for="inputName" class="col-md-3 form-label">字典分类<span class="text-red">*</span></label>
+                        <div class="col-md-9">
+                            <select name="ZDFLBM" class="form-control form-select select2" data-bs-placeholder="选择字典分类">
+                                @foreach (JZ.Application.Contract.Dtos.Business.ZDXXDto flitem in ViewBag.FLlist)
+                                {
+                                    if (Model.ZDFLBM==flitem.ZDFLBM)
+                                    {
+                                        <option value="@flitem.ZDFLBM" selected>@flitem.ZDFLMC</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@flitem.ZDFLBM">@flitem.ZDFLMC</option>
+                                    }
+
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class=" row mb-4">
+                        <label  class="col-md-3 form-label">字典编码</label>
+                        <div class="col-md-9">
+                            <input type="text" name="ZDBM" class="form-control" value="@Model.ZDBM">
+                        </div>
+
+                    </div>
+                    <div class=" row mb-4">
+                        <label class="col-md-3 form-label">字典名称</label>
+                        <div class="col-md-9">
+                            <input type="text" name="ZDMC" class="form-control" value="@Model.ZDMC">
+                        </div>
+
+                    </div>
+                    <div class=" row mb-4">
+                        <label for="inputEmail3" class="col-md-3 form-label">顺序</label>
+                        <div class="col-md-9">
+                            <input type="number" name="ZDSX" class="form-control" value="@Model.ZDSX">
+                        </div>
+                    </div>
+                    <div class=" row mb-4">
+                        <label class="col-md-3 form-label">图标</label>
+                        <div class="col-md-3">
+                            <input class="form-control" type="file" id="formFile" onchange="UploadImg()">
+                        </div>
+                        <label class="col-md-2 form-label">图片预览</label>
+                        <div class="col-md-3">
+                            <input type="hidden" id="hideName" name="BY1" value="@Model.BY1" />
+                            <img style="height:40px" id="imgPreView" src="@Model.BY1" class="img-thumbnail" alt="Model.Title">
+                        </div>
+                    </div>
+                    <div class="mb-0 mt-4 row justify-content-end">
+                        <div class="col-md-9">
+                            <button type="submit"  id="btnSave" class="btn btn-primary">保存</button>
+                            <a asp-controller="ZDXX" asp-action="Index" class="btn btn-primary">取消</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script type="text/javascript">
+ const UploadImg = function () {
+            var formData = new FormData();
+            formData.append("file", $("#formFile")[0].files[0]);
+            $.ajax({
+                url: "/UEditor/UpLoadImage",
+                type: "post",
+                data: formData,
+                processData: false, // 告诉jQuery不要去处理发送的数据
+                contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+                dataType: 'text',
+                success: function (data) {
+                    $("#imgPreView").attr("src", data);
+                    $("#hideName").val(data);
+                },
+                error: function (data) {
+
+                }
+            });
+        }
+    </script>
+}
+

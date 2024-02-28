@@ -1,0 +1,22 @@
+﻿################################################################################
+# 此 .gitignore 文件已由 Microsoft(R) Visual Studio 自动创建。
+################################################################################
+
+/JZ.Application/bin
+/JZ.Application.Contract/bin
+/JZ.Domain/bin
+/JZ.Domain.Shared/bin
+/JZ.Domain.Shared/obj
+/JZ.GenerateCode/bin/Debug/net6.0
+/JZ.GenerateCode/obj
+/JZ.WebAPI/bin
+/JZ.WebAPI/.vs
+/JZ.WebAPI/obj
+/JZ.WebAPI/Properties
+/JZ.WebAPI/appsettings.json
+/JZ.WebAPI/appsettings.Development.json
+/JZ.WebMange/bin
+/JZ.WebMange/obj
+/JZ.WebMange/Properties
+/JZ.WebMange/appsettings.Development.json
+/JZ.WebMange/appsettings.json

@@ -1,0 +1,45 @@
+﻿<nav>
+    <ul class="pagination">
+        @{
+            const int pageIncrement = 2;
+            const int pageTrailing = 5;
+            var totalPageCount = ViewBag.TotalPageCount == null ? 1 : (int)ViewBag.TotalPageCount;
+            if (totalPageCount > 1)
+            {
+                var pageIndex = ViewBag.CurrentPageIndex == null ? 1 : (int)ViewBag.CurrentPageIndex;
+                var pageRangeStart = pageIndex <= pageIncrement ? 1 : pageIndex - pageIncrement;
+                var pageRangeEnd = pageIndex + pageIncrement <= totalPageCount ? (totalPageCount > pageTrailing && pageIndex + pageIncrement < pageTrailing ? pageTrailing : pageIndex + pageIncrement) : totalPageCount;
+                if (pageRangeStart > 1)
+                {
+                    <li class="page-item">
+                        <input name="pageIndex" type="submit" class="page-link" style="cursor: pointer;" value="1" />
+                    </li>
+                    if (pageRangeStart > 2)
+                    {
+                        <li class="page-item disabled">
+                            <input name="pageIndex" type="submit" class="page-link" style="cursor: pointer;" value="..." />
+                        </li>
+                    }
+                }
+                for (var i = pageRangeStart; i <= pageRangeEnd; i++)
+                {
+                    <li class="page-item @(pageIndex == i ? "active" : null)">
+                        <input name="pageIndex" type="submit" class="page-link" style="cursor: pointer;" value="@i" />
+                    </li>
+                }
+                if (pageRangeEnd < totalPageCount)
+                {
+                    if (pageRangeEnd + 1 < totalPageCount)
+                    {
+                        <li class="page-item disabled">
+                            <input name="pageIndex" type="submit" class="page-link" style="cursor: pointer;" value="..." />
+                        </li>
+                    }
+                    <li class="page-item">
+                        <input name="pageIndex" type="submit" class="page-link" style="cursor: pointer;" value="@totalPageCount" />
+                    </li>
+                }
+            }
+        }
+    </ul>
+</nav>

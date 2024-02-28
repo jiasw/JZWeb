@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\JZ.Application.Contract\JZ.Application.Contract.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IdHelper" Version="1.4.1" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Yitter.IdGenerator" Version="1.0.14" />
+  </ItemGroup>
+
+</Project>

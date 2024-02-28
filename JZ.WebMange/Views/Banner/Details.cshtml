@@ -1,0 +1,82 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @model JZ.Application.Contract.Dtos.Business.BannerDto
+
+}
+
+
+<div class="row justify-content-md-center">
+    <div class="col-md-7">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">编辑Banner信息</h4>
+            </div>
+            <div class="card-body">
+                <form class="form-horizontal" asp-controller="Banner" asp-action="Save">
+                    <input type="hidden" name="ID" value="@Model.ID" />
+                    <div class=" row mb-4">
+                        <label for="inputName" class="col-md-3 form-label">名称<span class="text-red">*</span></label>
+                        <div class="col-md-9">
+                            <input type="text" name="Title" class="form-control"  value="@Model.Title" >
+                        </div>
+                    </div>
+                    <div class=" row mb-4">
+                        <label for="inputEmail3" class="col-md-3 form-label">图片</label>
+                        <div class="col-md-9">
+                            <input class="form-control" type="file" id="formFile" onchange="UploadImg()">
+                        </div>
+                        
+                    </div>
+                    <div class=" row mb-4">
+                        <label for="inputEmail3" class="col-md-3 form-label">图片预览</label>
+                        <div class="col-md-9">
+                            <input type="hidden" id="hideName" name="Addr" value="@Model.Addr" />
+                            <img style="height:150px" id="imgPreView" src="@Model.Addr" class="img-thumbnail" alt="Model.Title">
+                        </div>
+                    </div>
+                    <div class=" row mb-4">
+                        <label for="inputPassword3" class="col-md-3 form-label">排序</label>
+                        <div class="col-md-9">
+                            <input type="number" name="PicOrder" class="form-control" value="@Model.PicOrder">
+                        </div>
+                    </div>
+                    <div class="mb-0 mt-4 row justify-content-end">
+                        <div class="col-md-9">
+                            <button type="submit" class="btn btn-primary">保存</button>
+                           
+                            <a asp-controller="Banner" asp-action="Index" class="btn btn-primary">取消</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+ @section Scripts{
+ 
+    <script type="text/javascript">
+        const UploadImg=function(){
+            var formData = new FormData();
+            formData.append("file", $("#formFile")[0].files[0]);
+            $.ajax({
+                url: "/UEditor/UpLoadImage",
+                type: "post",
+                data: formData,
+                processData: false, // 告诉jQuery不要去处理发送的数据
+                contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+                dataType: 'text',
+                success: function (data) {
+                    console.log("data",data);
+                    $("#imgPreView").attr("src", data);
+                    $("#hideName").val( data);
+                },
+                error: function (data) {
+
+                }
+            });
+        }
+    </script>
+ 
+ }

@@ -1,0 +1,152 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @model JZ.Application.Contract.Dtos.Business.UserInfoDto
+    string returnUrl = Context.Request.Query["returnUrl"].ToString();
+    returnUrl = string.IsNullOrWhiteSpace(returnUrl) ? "/UserInfo/Index" : returnUrl;
+}
+
+
+<div class="row justify-content-md-center">
+    <div class="col-md-7">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">编辑用户信息</h4>
+            </div>
+            <div class="card-body">
+
+                <input type="hidden" name="ID" id="hidID" value="@Model.ID" />
+                    <div class=" row mb-4">
+                        <label for="inputName" class="col-md-2 form-label">昵称<span class="text-red">*</span></label>
+                        <div class="col-md-4">
+                            <input type="text" id="txtNickName" name="Title" class="form-control" value="@Model.NickName">
+                        </div>
+                        <label for="inputName" class="col-md-2 form-label">真实姓名<span class="text-red">*</span></label>
+                        <div class="col-md-4">
+                            <input type="text" id="txtRealName" name="Title" class="form-control" value="@Model.RealName">
+                        </div>
+                    </div>
+                    <div class=" row mb-4">
+                        <label  class="col-md-2 form-label">头像</label>
+                        <div class="col-md-4">
+                            <input class="form-control" type="file" id="formFile" onchange="UploadImg()">
+                        </div>
+                        <label  class="col-md-2 form-label">图片预览</label>
+                        <div class="col-md-4">
+                            <input type="hidden" id="hideName" name="Addr" value="@Model.Photo" />
+                            <img style="height:40px" id="imgPreView" src="@Model.Photo" class="img-thumbnail" alt="Model.Title">
+                        </div>
+                    </div>
+                    <div class=" row mb-4">
+                        <label  class="col-md-2 form-label">性别</label>
+                        <div class="col-md-4">
+                            <select name="Sex" id="selectSex" class="form-control form-select select2" data-bs-placeholder="选择字典分类">
+                                @foreach (JZ.Application.Contract.Dtos.Business.ZDXXDto flitem in ViewBag.XBlist)
+                                {
+                                    <option value="@flitem.ZDBM" selected='Model.Sex == flitem.ZDBM'>@flitem.ZDMC</option>
+                                }
+                            </select>
+                        </div>
+
+                        <label for="inputName" class="col-md-2 form-label">手机号码<span class="text-red">*</span></label>
+                        <div class="col-md-4">
+                        <input type="text" id="txtPhone" name="Phone" class="form-control" value="@Model.Phone">
+                        </div>
+                    </div>
+                    <div class=" row mb-4">
+                        <label for="inputPassword3" class="col-md-2 form-label">微信id</label>
+                        <div class="col-md-4">
+                            <input type="text" id="txtWXID" name="WXID" class="form-control" value="@Model.WXID">
+                        </div>
+                    <label class="col-md-2 form-label">用户类别</label>
+                    <div class="col-md-4">
+                        <select name="YHLY" id="selectYHLY" class="form-control form-select select2" data-bs-placeholder="选择字典分类">
+                            @foreach (JZ.Application.Contract.Dtos.Business.ZDXXDto flitem in ViewBag.LBlist)
+                            {
+                                    <option value="@flitem.ZDBM" selected='Model.YHLY == flitem.ZDBM'>@flitem.ZDMC</option>
+                            }
+                        </select>
+                    </div>
+                    </div>
+                    <div class="mb-0 mt-4 row justify-content-end">
+                        <div class="col-md-9">
+                            <button  id="btnSave" class="btn btn-primary">保存</button>
+                            <button id="btnCancle" class="btn btn-secondary">取消</button>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+
+    <script type="text/javascript">
+        const UploadImg = function () {
+            var formData = new FormData();
+            formData.append("file", $("#formFile")[0].files[0]);
+            $.ajax({
+                url: "/UEditor/UpLoadImage",
+                type: "post",
+                data: formData,
+                processData: false, // 告诉jQuery不要去处理发送的数据
+                contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+                dataType: 'text',
+                success: function (data) {
+                    $("#imgPreView").attr("src", data);
+                    $("#hideName").val(data);
+                },
+                error: function (data) {
+
+                }
+            });
+        }
+
+
+        const GoBack = function () {
+            location.href = '@returnUrl';
+        }
+
+        $("#btnSave").on("click", function () {
+            let postModel = {
+                ID: $("#hidID").val(),
+                NickName: $("#txtNickName").val(),
+                RealName: $("#txtRealName").val(),
+                Photo: $("#hideName").val(),
+                Sex: $("#selectSex").val(),
+                Phone: $("#txtPhone").val(),
+                WXID: $("#txtWXID").val(),
+                YHLY: $("#selectYHLY").val(),
+                
+            };
+
+            $.ajax({
+                url: "/UserInfo/Save",
+                type: "post",
+                data: postModel,
+                success: function (data) {
+
+                    if (data.code == 200) {
+                        MyShower.ShowMsg('保存成功', GoBack);
+                    } else {
+                        layer.alert(data.message);
+                    }
+
+                },
+                error: function (data) {
+
+                }
+            });
+
+        });
+
+
+        $("#btnCancle").on("click", function () {
+
+            GoBack();
+
+        });
+
+    </script>
+
+ }

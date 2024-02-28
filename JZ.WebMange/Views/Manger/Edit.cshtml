@@ -1,0 +1,45 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @model JZ.Application.Contract.Dtos.Business.MangerDto
+}
+
+<div class="row justify-content-md-center">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">编辑管理员信息</h4>
+            </div>
+            <div class="card-body">
+                <form class="form-horizontal" asp-controller="Manger" asp-action="Save">
+                    <input type="hidden" name="ID" value="@Model.ID" />
+                    <div class=" row mb-4">
+                        <label for="inputName" class="col-md-3 form-label">用户名<span class="text-red">*</span></label>
+                        <div class="col-md-9">
+                            <input type="text" name="Name" class="form-control" id="inputName" value="@Model.Name" autocomplete="username">
+                        </div>
+                    </div>
+                    <div class=" row mb-4">
+                        <label for="inputEmail3" class="col-md-3 form-label">登录名</label>
+                        <div class="col-md-9">
+                            <input type="text" name="LoginName" class="form-control" value="@Model.LoginName" autocomplete="username">
+                        </div>
+                    </div>
+                    <div class=" row mb-4">
+                        <label for="inputPassword3" class="col-md-3 form-label">密码</label>
+                        <div class="col-md-9">
+                            <input type="text" name="LoginPsw" class="form-control" value="" autocomplete="new-password">
+                        </div>
+                    </div>
+                    <div class="mb-0 mt-4 row justify-content-end">
+                        <div class="col-md-9">
+                            <button type="submit" class="btn btn-primary">保存</button>
+                            <a asp-controller="Manger" asp-action="Index" class="btn btn-primary">取消</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        </div>
+</div>

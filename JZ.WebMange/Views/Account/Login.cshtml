@@ -1,0 +1,53 @@
+﻿@model LoginViewModel
+@{
+    Layout = null;
+}
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+    <!-- META DATA -->
+    <meta charset="UTF-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="家政服务管理后台">
+    <meta name="author" content="家政服务">
+    <!-- FAVICON -->
+    <link rel="shortcut icon" type="image/x-icon" href="~/lib/sash/assets/images/brand/favicon.ico">
+    <!-- TITLE -->
+    <title>家政服务后台管理系统</title>
+    <!-- BOOTSTRAP CSS -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <!-- STYLE CSS -->
+    <link href="~/css/sign-in.css" rel="stylesheet">
+</head>
+
+<body class="text-center">
+    <main class="form-signin w-100 m-auto">
+        <form id="account" method="post" asp-controller="Account" asp-action="Login">
+            <img class="mb-4" src="~/img/bootstrap-logo.svg" alt="" width="72" height="57">
+            <h1 class="h3 mb-3 fw-normal">系统登录</h1>
+
+            <div class="form-floating">
+                <input type="text" class="form-control" asp-for="UserName" id="floatingInput" placeholder="name@example.com">
+                <label for="floatingInput">用户名</label>
+            </div>
+            <div class="form-floating">
+                <input type="password" class="form-control" asp-for="Password" id="floatingPassword" placeholder="Password">
+                <label for="floatingPassword">密码</label>
+            </div>
+
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" value="remember-me" asp-for="RememberMe"> 记住我
+                </label>
+            </div>
+            <button class="w-100 btn btn-lg btn-primary" type="submit">登录</button>
+            <p class="mt-5 mb-3 text-muted">&copy; 2022–20240</p>
+        </form>
+    </main>
+
+
+
+</body>
+
+</html>

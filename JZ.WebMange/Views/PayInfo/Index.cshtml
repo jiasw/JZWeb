@@ -1,0 +1,111 @@
+﻿@{
+    @model IEnumerable<JZ.Application.Contract.Dtos.Business.PayInfoDto>
+
+}
+
+<div class="row">
+    <form asp-controller="PayInfo" asp-action="Index" method="get">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">支付列表</h4>
+            </div>
+            <div class="card-body p-6">
+                <div class="inbox-body">
+                    <div class="row">
+                        <div class="form-row align-items-center">
+                            <div class="col-auto">
+                                <input type="text" class="form-control" name="keyword" />
+                            </div>
+
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-primary ">查询</button>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table border text-nowrap text-md-nowrap table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th scope="col">用户信息</th>
+                                    <th scope="col">本地订单号</th>
+                                    <th scope="col">微信支付订单号</th>
+                                    <th scope="col">支付方式</th>
+                                    <th scope="col">支付状态</th>
+                                    <th scope="col">回调状态</th>
+                                    <th scope="col">支付标题</th>
+                                    <th scope="col">支付备注</th>
+                                    <th scope="col">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (JZ.Application.Contract.Dtos.Business.PayInfoDto item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.UserID-@item.UserName</td>
+                                        <td>@item.OrderID</td>
+                                        <td>@item.PayOrderNO</td>
+                                        <td>@item.PayType</td>
+                                        <td>@item.PayState</td>
+                                        <td>@item.CallState</td>
+                                        <td>@item.PayTitle</td>
+                                        <td>@item.PayRemark</td>
+                                        <td>
+                                            <div class="col-md-3">
+                                                <a href="#" data-id="@item.ID" class="btn btn-sm btn-danger">删除</a>
+
+                                            </div>
+
+                                        </td>
+
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ul class="pagination mb-4">
+            @await Component.InvokeAsync("Pagination")
+        </ul>
+
+    </form>
+
+    @section Scripts{
+        <script type="text/javascript">
+
+            //删除
+            $(".btn-danger").on("click", function (e) {
+                const ids = e.target.dataset.id;
+                layer.confirm('确认删除数据吗?', { icon: 3, title: '提示' }, function (index) {
+                    $.ajax({
+                        type: "post",
+                        datatype: "json",
+                        url: "/PayInfo/Delete",
+                        data: { ids: ids },
+                        success: function (result) {
+                            if (result.code == 200) {
+                                MyShower.ShowMsg("删除成功", function () {
+                                    window.location.reload();
+                                });
+
+                            } else {
+                                layer.alert("删除失败!");
+                            }
+                        }
+
+
+                    });
+
+
+                });
+
+            });
+
+        </script>
+    }
+
+</div>

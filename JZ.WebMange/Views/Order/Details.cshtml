@@ -1,0 +1,112 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @model JZ.Application.Contract.Dtos.Business.OrderDto
+    string returnUrl = Context.Request.Query["returnUrl"].ToString();
+    returnUrl = string.IsNullOrWhiteSpace(returnUrl) ? "/Order/Index" : returnUrl;
+}
+
+
+<div class="row justify-content-md-center">
+    <div class="col-md-7">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">订单详细信息</h4>
+            </div>
+            <div class="card-body">
+                <div class=" row mb-4">
+                    <label for="inputName" class="col-md-2 form-label">订单ID<span class="text-red">*</span></label>
+                    <div class="col-md-4">
+                        <input type="text"  name="ID" class="form-control" value="@Model.ID">
+                    </div>
+                    <label for="inputName" class="col-md-2 form-label">预约码<span class="text-red">*</span></label>
+                    <div class="col-md-4">
+                        <input type="text" name="Code" class="form-control" value="@Model.Code">
+                    </div>
+                </div>
+                <div class=" row mb-4">
+                    <label for="inputName" class="col-md-2 form-label">用户ID<span class="text-red">*</span></label>
+                    <div class="col-md-4">
+                        <input type="text"  name="Title" class="form-control" value="@Model.UserID">
+                    </div>
+                    <label for="inputName" class="col-md-2 form-label">微信ID<span class="text-red">*</span></label>
+                    <div class="col-md-4">
+                        <input type="text"  name="Title" class="form-control" value="@Model.WXID">
+                    </div>
+                </div>
+                <div class=" row mb-4">
+                    <label for="inputName" class="col-md-2 form-label">订单标题<span class="text-red">*</span></label>
+                    <div class="col-md-9">
+                        <input type="text"  name="Title" class="form-control" value="@Model.Title">
+                    </div>
+                </div>
+                <div class=" row mb-4">
+                    <label for="inputName" class="col-md-2 form-label">地址<span class="text-red">*</span></label>
+                    <div class="col-md-9">
+                        <input type="text"  name="Title" class="form-control" value="@Model.Address">
+                    </div>
+                </div>
+                <div class=" row mb-4">
+                    <label for="inputName" class="col-md-2 form-label">备注<span class="text-red">*</span></label>
+                    <div class="col-md-9">
+                        <input type="text"  name="Title" class="form-control" value="@Model.Remarks">
+                    </div>
+                </div>
+                <div class=" row mb-4">
+                    <label for="inputName" class="col-md-2 form-label">联系人<span class="text-red">*</span></label>
+                    <div class="col-md-4">
+                        <input type="text"  name="Title" class="form-control" value="@Model.OrderUserName">
+                    </div>
+                    <label for="inputName" class="col-md-2 form-label">时间<span class="text-red">*</span></label>
+                    <div class="col-md-4">
+                        <input type="text"  name="Title" class="form-control" value="@Model.OrderTime">
+                    </div>
+                </div>
+                <div class=" row mb-4">
+                    <label for="inputName" class="col-md-2 form-label">订单状态<span class="text-red">*</span></label>
+                    <div class="col-md-4">
+                        <input type="text"  name="Title" class="form-control" value="@Model.OrderState">
+                    </div>
+                    <label for="inputName" class="col-md-2 form-label">微信支付订单id<span class="text-red">*</span></label>
+                    <div class="col-md-4">
+                        <input type="text" name="Title" class="form-control" value="@Model.WXPayOrderID">
+                    </div>
+                </div>
+                <div class=" row mb-4">
+                    <label for="inputName" class="col-md-2 form-label">服务项目<span class="text-red">*</span></label>
+                    <div class="col-md-4">
+                        <input type="text"  name="Title" class="form-control" value="@Model.FWMC">
+                    </div>
+                    <label for="inputName" class="col-md-2 form-label">服务数量<span class="text-red">*</span></label>
+                    <div class="col-md-4">
+                        <input type="text"  name="Title" class="form-control" value="@Model.FWSL">
+                    </div>
+                </div>
+                <div class="mb-0 mt-4 row justify-content-end">
+                    <div class="col-md-9">
+                        <button id="btnCancle" class="btn btn-secondary">取消</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    
+    <script type="text/javascript">
+
+
+        const GoBack = function () {
+            location.href = '@returnUrl';
+        }
+        $("#btnCancle").on("click", function () {
+
+            GoBack();
+
+        });
+
+    </script>
+
+ }

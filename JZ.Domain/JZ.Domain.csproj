@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\JZ.Domain.Shared\JZ.Domain.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Log\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NLog" Version="5.2.0" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="5.3.0" />
+  </ItemGroup>
+
+</Project>

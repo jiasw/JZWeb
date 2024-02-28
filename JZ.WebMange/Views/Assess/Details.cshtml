@@ -1,0 +1,139 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @model JZ.Application.Contract.Dtos.Business.AssessDto
+
+}
+
+
+<div class="row justify-content-md-center">
+    <div class="col-md-7">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">编辑评论信息</h4>
+            </div>
+            <div class="card-body">
+                <form class="form-horizontal" asp-controller="Assess" asp-action="Save">
+                <input type="hidden" name="ID" value="@Model.ID" />
+               
+                
+                <div class=" row mb-4">
+                    <label class="col-md-2 form-label">用户ID<span class="text-red">*</span></label>
+                    <div class="col">
+                            <input type="text" name="UserID" id="txtTitle" class="form-control" value="@Model.UserID">
+                    </div>
+                    <div class="col">
+                            <input type="text" name="UserName" class="form-control" value="@Model.UserName" placeholder="用户名">
+                    </div>
+                    <div class="col">
+                            <img style="height:40px" name="UserImg" src="@Model.UserImg" class="img-thumbnail" alt="用户头像">
+                    </div>
+                </div>
+                    <div class=" row mb-4">
+                        <label for="inputName" class="col-md-2 form-label">评分等级<span class="text-red">*</span></label>
+                        <div class="col">
+                            <input type="hidden" id="hideLevel" name="Level" value="@Model.Level" />
+                            <div class="rating-stars block" id="rating-1" data-stars="@Model.Level">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <input type="text" name="OrderID" class="form-control" value="@Model.OrderID" placeholder="订单ID">
+                        </div>
+                        <div class="col">
+                            <select name="IsGood" class="form-control form-select select2" data-bs-placeholder="是否精选评论">
+                                @foreach (JZ.Application.Contract.Dtos.Business.ZDXXDto flitem in ViewBag.FLlist)
+                                {
+                                        <option value="@flitem.ZDBM" selected="@(Model.IsGood == flitem.ZDBM)">@flitem.ZDMC</option>
+                                }
+                            </select>
+                            
+                        </div>
+                    </div>
+                <div class=" row mb-4">
+                    <label for="inputEmail3" class="col-md-2 form-label">评论内容</label>
+                    <div class="col-md-9">
+                        <textarea class="form-control mb-4" name="Text" placeholder="Textarea" rows="4" >@Model.Text</textarea>
+                    </div>
+                </div>
+                <div class=" row mb-4">
+                    <label for="inputEmail3" class="col-md-2 form-label">评论图片</label>
+                    <div class="row col-md-9" id="divpic">
+                            <input type="hidden" id="hidePic" name="Pics" value="@Model.Pics" />
+                        <div class="col">
+                            <input class="form-control" type="file" id="formFile" onchange="UploadImg()">
+                        </div>
+                        @foreach (string item in @Model.listPic)
+                        {
+                            <div class="col">
+                                <img style="height:150px" src="@item" class="img-thumbnail" alt="评价图片">
+                            </div>
+                        }
+                    </div>
+                </div>
+                    <div class=" row mb-4">
+                        <label for="inputEmail3" class="col-md-2 form-label">评论关键词</label>
+                        <div class="col-md-9">
+                            <input type="text" name="KeyWord" class="form-control" value="@Model.KeyWord" placeholder="评论关键词">
+                        </div>
+                    </div>
+                
+                
+                <div class="mb-0 mt-4 row justify-content-end">
+                    <div class="col-md-9">
+                        <button id="btnSave" class="btn btn-primary">保存</button>
+                            <button id="btnCancle" class="btn btn-secondary">取消</button>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/lib/sash/assets/plugins/rating/jquery-rate-picker.js"></script>
+    <script type="text/javascript">
+
+        const UploadImg = function () {
+            var formData = new FormData();
+            formData.append("file", $("#formFile")[0].files[0]);
+            $.ajax({
+                url: "/UEditor/UpLoadImage",
+                type: "post",
+                data: formData,
+                processData: false, // 告诉jQuery不要去处理发送的数据
+                contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+                dataType: 'text',
+                success: function (data) {
+                    var hidwpicval = $("#hidePic").val();
+                    if (hidwpicval){
+                        $("#hidePic").val(hidwpicval+";"+data);
+                    }else{
+                        $("#hidePic").val(data);
+                    }
+
+                    $("#divpic").append('<div class="col"><img style = "height:150px" src = "'+data+'" class= "img-thumbnail" alt = "评价图片"></div>');
+                    
+                },
+                error: function (data) {
+
+                }
+            });
+        }
+
+       
+
+        $.ratePicker("#rating-1", {
+            rate: function (stars) {
+                console.log(stars);
+                $("#hideLevel").val(stars);
+            }
+        });
+
+        $("#btnCancle").on("click", function () {
+            location.href = "/Assess/Index";
+        });
+
+    </script>
+
+ }

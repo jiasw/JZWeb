@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IdentityModel" Version="6.1.0" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.1" />
+    <PackageReference Include="UEditor.Core" Version="1.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\JZ.Application\JZ.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="upload\yhpj\" />
+  </ItemGroup>
+
+</Project>

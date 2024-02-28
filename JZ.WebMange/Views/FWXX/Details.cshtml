@@ -1,0 +1,266 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @model JZ.Application.Contract.Dtos.Business.FWXXDto
+    string returnUrl = Context.Request.Query["returnUrl"].ToString();
+    returnUrl = string.IsNullOrWhiteSpace(returnUrl) ? "/FWXX/Index" : returnUrl;
+}
+<style>
+    .image-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .delete-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        border: none;
+        cursor: pointer;
+    }
+
+</style>
+
+<div class="row justify-content-md-center">
+    <div class="col-md-7">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">编辑动态信息</h4>
+            </div>
+            <div class="card-body">
+
+                <input type="hidden" id="hidID" name="ID" value="@Model.ID" />
+                <input type="hidden" name="Context" id="hidContext" value="@Model.Context" />
+                <div class=" row mb-4">
+                    <label for="inputName" class="col-md-2 form-label">服务类型<span class="text-red">*</span></label>
+                    <div class="col-md-4">
+                        <select name="FWLX" id="selectFWLX" class="form-control form-select select2" data-bs-placeholder="选择字典分类">
+                            @foreach (JZ.Application.Contract.Dtos.Business.ZDXXDto flitem in ViewBag.FWLXList)
+                            {
+                                <option value="@flitem.ZDBM" selected="@(Model.FWLX == flitem.ZDBM)">@flitem.ZDMC</option>
+                            }
+                        </select>
+                    </div>
+                    <label for="inputName" class="col-md-2 form-label">优质服务<span class="text-red">*</span></label>
+                    <div class="col-md-3">
+                        <select name="IsGood" id="selectIsGood" class="form-control form-select select2" data-bs-placeholder="选择字典分类">
+                            @foreach (JZ.Application.Contract.Dtos.Business.ZDXXDto flitem in ViewBag.SFList)
+                            {
+                                <option value="@flitem.ZDBM" selected="@Model.IsGood == flitem.ZDBM">@flitem.ZDMC</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class=" row mb-4">
+                    <label class="col-md-2 form-label">名称<span class="text-red">*</span></label>
+                    <div class="col-md-9">
+                        <input type="text" name="Title" id="txtTitle" class="form-control" value="@Model.Title">
+                    </div>
+                </div>
+                <div class=" row mb-4">
+                    <label for="inputEmail3" class="col-md-2 form-label">封面图片</label>
+                    <div class="col-md-4">
+                        <input class="form-control" type="file" id="formFile" onchange="UploadImg()">
+                    </div>
+                    <label for="inputEmail3" class="col-md-2 form-label">图片预览</label>
+                    <div class="col-md-4">
+                        <input type="hidden" id="hidePic" name="Pic" value="@Model.Pic" />
+                        <img style="height:150px" id="imgPreView" src="@Model.Pic" class="img-thumbnail" alt="Model.Title">
+                    </div>
+                </div>
+                <div class=" row mb-4">
+                    <label for="inputEmail3" class="col-md-2 form-label">Banner图片</label>
+                    <div class="row col-md-9" id="divpic">
+                        <input type="hidden" id="hideBanner" name="Pics" value="@Model.Banner" />
+                        <div class="col">
+                            <input class="form-control" type="file" id="formBannerFile" onchange="UploadBannerImg()">
+                        </div>
+                        @foreach (string item in @Model.listBanner)
+                        {
+                            <div class="col image-container">
+                                
+                                <img style="height:150px" src="@item" class="img-thumbnail" alt="评价图片">
+                                <button class="btn btn-primary btn-sm delete-button" >删除</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class=" row mb-4">
+                    <label for="inputName" class="col-md-2 form-label">简介<span class="text-red">*</span></label>
+                    <div class="col-md-9">
+                        <input type="text" name="Summary" id="txtSummary" class="form-control" value="@Model.Summary">
+                    </div>
+                </div>
+                <div class=" row mb-4">
+                    <label for="container" class="col-md-2 form-label">内容</label>
+                    <div class="col-md-9">
+                        <script id="container" name="content" type="text/plain">
+
+                        </script>
+                    </div>
+                </div>
+                <div class=" row mb-4">
+                    <label for="inputName" class="col-md-2 form-label">价格<span class="text-red">*</span></label>
+                    <div class="col-md-4">
+                        <input type="number" name="Price" id="txtPrice" class="form-control" value="@Model.Price">
+                    </div>
+                    <div class="col-md-4">
+                        <select name="Unit" id="selectUnit" class="form-control form-select select2" data-bs-placeholder="选择字典分类">
+                            @foreach (JZ.Application.Contract.Dtos.Business.ZDXXDto flitem in ViewBag.DWlist)
+                            {
+                                if (Model.Unit == flitem.ZDBM)
+                                {
+                                    <option value="@flitem.ZDBM" selected>@flitem.ZDMC</option>
+                                }
+                                else
+                                {
+                                    <option value="@flitem.ZDBM">@flitem.ZDMC</option>
+                                }
+
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class=" row mb-4">
+                    <label for="inputName" class="col-md-2 form-label">顺序<span class="text-red">*</span></label>
+                    <div class="col-md-9">
+                        <input type="number" name="SX" id="txtSX" class="form-control" value="@Model.SX">
+                    </div>
+                </div>
+                <div class="mb-0 mt-4 row justify-content-end">
+                    <div class="col-md-9">
+                        <button id="btnSave" class="btn btn-primary">保存</button>
+                        <button id="btnCancle" class="btn btn-secondary">取消</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script type="text/javascript" src="~/lib/ueditor-1.4.3.3/ueditor.config.js"></script>
+    <script type="text/javascript" src="~/lib/ueditor-1.4.3.3/ueditor.all.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var ue = UE.getEditor('container', {
+                initialFrameHeight: 500
+            });
+
+            setTimeout(function () {
+                let txtsummary = $('#hidContext').val();
+                if (txtsummary) {
+                    UE.getEditor('container').setContent(txtsummary);
+                }
+            }, 1000);
+        });
+
+        const UploadImg = function () {
+            var formData = new FormData();
+            formData.append("file", $("#formFile")[0].files[0]);
+            $.ajax({
+                url: "/UEditor/UpLoadImage",
+                type: "post",
+                data: formData,
+                processData: false, // 告诉jQuery不要去处理发送的数据
+                contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+                dataType: 'text',
+                success: function (data) {
+                    $("#imgPreView").attr("src", data);
+                    $("#hidePic").val(data);
+                },
+                error: function (data) {
+
+                }
+            });
+        }
+
+        $(".delete-button").on("click",function(){
+            let btnobj = $(this);
+            layer.confirm('确认删除图片吗?', { icon: 3, title: '提示' }, function (index) {
+                btnobj.parent().remove();
+                let imgurl = btnobj.prev().attr("src") ;
+                $('#hideBanner').val($('#hideBanner').val().replace(imgurl, ''))
+                layer.close(index);
+            })
+        
+        });
+
+
+
+        const UploadBannerImg = function () {
+            var formData = new FormData();
+            formData.append("file", $("#formBannerFile")[0].files[0]);
+            $.ajax({
+                url: "/UEditor/UpLoadImage",
+                type: "post",
+                data: formData,
+                processData: false, // 告诉jQuery不要去处理发送的数据
+                contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+                dataType: 'text',
+                success: function (data) {
+                    var hidwpicval = $("#hideBanner").val();
+                    if (hidwpicval) {
+                        $("#hideBanner").val(hidwpicval + ";" + data);
+                    } else {
+                        $("#hideBanner").val(data);
+                    }
+
+                    $("#divpic").append('<div class="col"><img style = "height:150px" src = "' + data + '" class= "img-thumbnail" alt = "banner图片"></div>');
+
+                },
+                error: function (data) {
+
+                }
+            });
+        }
+
+        const GoBack = function () {
+            location.href = '@returnUrl';
+        }
+
+        $("#btnSave").on("click", function () {
+            let postModel = {
+                ID: $("#hidID").val(),
+                FWLX: $("#selectFWLX").val(),
+                Title: $("#txtTitle").val(),
+                Context: UE.getEditor('container').getContent(),
+                Summary: $("#txtSummary").val(),
+                Pic: $("#hidePic").val(),
+                Price: $("#txtPrice").val(),
+                Unit: $("#selectUnit").val(),
+                SX: $("#txtSX").val(),
+                IsGood: $("#selectIsGood").val(),
+                Banner: $("#hideBanner").val(),
+            };
+
+            $.ajax({
+                url: "/FWXX/Save",
+                type: "post",
+                data: postModel,
+                success: function (data) {
+                    if (data.code == 200) {
+                        MyShower.ShowMsg('保存成功',GoBack);
+                    } else {
+                        layer.alert(data.message);
+                    }
+
+                },
+                error: function (data) {
+
+                }
+            });
+
+        });
+
+
+        $("#btnCancle").on("click", function () {
+
+            GoBack();
+
+        });
+
+    </script>
+
+ }
